@@ -321,6 +321,15 @@ PY
 
 	[ ! -f "requirements.txt" ] && echo "✗ Error: requirements.txt not found" && exit 1
 
+	# 临时修复 gevent 版本（因为 26.5.0 在 PyPI 上不存在）
+	echo "→ Checking and fixing gevent version..."
+	sed -i 's/gevent==26.5.0/gevent==25.9.1/g' requirements.txt
+	if grep -q "gevent==25.9.1" requirements.txt; then
+		echo "✓ gevent version fixed to 25.9.1"
+	else
+		echo "ℹ No gevent version fixed (maybe already correct or not present)"
+	fi
+	
 	# ============================================
 	# Step 3: Download Python dependencies as wheels
 	# ============================================
