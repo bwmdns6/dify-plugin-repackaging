@@ -321,15 +321,20 @@ PY
 
 	[ ! -f "requirements.txt" ] && echo "✗ Error: requirements.txt not found" && exit 1
 
-	# 临时修复不存在的版本（gevent 26.5.0 和 greenlet 3.5.1）
+	# 临时修复不存在的版本
 	echo "→ Checking and fixing dependency versions..."
 	sed -i 's/gevent==26.5.0/gevent==25.9.1/g' requirements.txt
 	sed -i 's/greenlet==3.5.1/greenlet==3.2.5/g' requirements.txt
+	sed -i 's/tiktoken==0.13.0/tiktoken==0.11.0/g' requirements.txt
+	# 可继续添加其他不存在的版本规则
 	if grep -q "gevent==25.9.1" requirements.txt; then
 		echo "✓ gevent version fixed to 25.9.1"
 	fi
 	if grep -q "greenlet==3.2.5" requirements.txt; then
 		echo "✓ greenlet version fixed to 3.2.5"
+	fi
+	if grep -q "tiktoken==0.11.0" requirements.txt; then
+		echo "✓ tiktoken version fixed to 0.11.0"
 	fi
 	
 	# ============================================
